@@ -5,6 +5,13 @@
 	Version:           20160404
 */
 
+// Disable payment type selection.
+add_filter('woocommerce_cart_needs_payment', '__return_false');
+
+// Disable shipping method selection.
+add_filter('woocommerce_cart_needs_shipping', '__return_false');
+
+// Remove fields to form checkout.
 function remove_extra_checkout_fields( $fields ) {
 
 	unset( $fields['billing']['billing_last_name'] );
@@ -29,8 +36,7 @@ function remove_extra_checkout_fields( $fields ) {
     return $fields;
 }
 
-
-
+// Getting the value of a specific user address field.
 if ( !function_exists( 'get_address_field_value' ) ) {
 	function get_address_field_value($customer_id, $field_name) {
 		$arr = [
@@ -61,6 +67,7 @@ if ( !function_exists( 'get_address_field_value' ) ) {
 	}
 }
 
+// Edit order address
 function action_woocommerce_checkout_create_order( $order, $data ) { 
 
 	$address = [
@@ -75,14 +82,17 @@ function action_woocommerce_checkout_create_order( $order, $data ) {
 
 }; 
 
+// Render custom form.
 function custom_checkout_form() {
 	remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cart_totals', 10 );
 	load_template( plugin_dir_path( __FILE__ ) . 'templates/form_checkout.php', true );
 }
 
+// Hooks action.
 add_action( 'woocommerce_checkout_create_order', 'action_woocommerce_checkout_create_order', 10, 2 );
 add_action( 'woocommerce_cart_collaterals', 'custom_checkout_form', 1 );
 
+//Hooks filter.
 add_filter('woocommerce_cart_needs_payment', '__return_false');
 add_filter('woocommerce_cart_needs_shipping', '__return_false');
 add_filter( 'woocommerce_checkout_fields' , 'remove_extra_checkout_fields' );
