@@ -48,7 +48,6 @@ if ( !function_exists( 'get_address_field_value' ) ) {
 			$address = WC()->countries->get_address_fields( get_user_meta( $customer_id, $values . '_country', true ), $values . '_' );
 
 				foreach ( $address as $key => $field ) {
-
 					$value = get_user_meta( get_current_user_id(), $key, true );
 
 					if ( !$value ) {
@@ -93,6 +92,6 @@ add_action( 'woocommerce_checkout_create_order', 'action_woocommerce_checkout_cr
 add_action( 'woocommerce_cart_collaterals', 'custom_checkout_form', 1 );
 
 //Hooks filter.
-add_filter('woocommerce_cart_needs_payment', '__return_false');
-add_filter('woocommerce_cart_needs_shipping', '__return_false');
+add_filter( 'woocommerce_cart_needs_payment', '__return_false');
+add_filter( 'woocommerce_cart_needs_shipping', '__return_false');
 add_filter( 'woocommerce_checkout_fields' , 'remove_extra_checkout_fields' );
