@@ -11,12 +11,16 @@ if ( ! $checkout->enable_signup && ! $checkout->enable_guest_checkout && ! is_us
 	echo apply_filters( 'woocommerce_checkout_must_be_logged_in_message', __( 'You must be logged in to checkout.', 'woocommerce' ) );
 	return;
 }
+$order = new WC_Order;
+//var_dump($order->get_order_key());
+
+
 ?>
 
 <h2 class="entry-title">Оформление заказа</h2>
 
 <form name="checkout" method="post" class="checkout woocommerce-checkout form-horizontal" action="<?php echo esc_url( WC()->cart->get_cart_url() ); ?>" enctype="multipart/form-data">
-
+	
 	<div class="row">
 		<div class="col-md-4">
 
@@ -40,20 +44,14 @@ if ( ! $checkout->enable_signup && ! $checkout->enable_guest_checkout && ! is_us
 					<input type="email" class="input-text form-control" name="billing_email" id="billing_email" required="required" placeholder="" value="<?php esc_attr_e( get_address_field_value($customer_id, 'billing_email') ); ?>" />
 				</div>
 			</div>
+			
 			<div class="form-group">
-				<label for="account_email" class="control-label col-md-3"><?php _e( 'Shipping address', 'woocommerce' ); ?></label>
+				<label for="account_email" class="control-label col-md-3"><?php _e( 'Address', 'woocommerce' ); ?></label>
 				<div class="col-md-9">
 					<input type="text" class="input-text form-control" name="billing_address_1" id="billing_address_1" required="required" placeholder="" value="<?php esc_attr_e( get_address_field_value($customer_id, 'billing_address_1') ); ?>" />
 				</div>
 			</div>
-			
-			<div class="form-group">
-				<label for="account_email" class="control-label col-md-3"><?php _e( 'Shipping address', 'woocommerce' ); ?></label>
-				<div class="col-md-9">
-					<input type="text" class="input-text form-control" name="shipping_address_1" id="shipping_address_1" required="required" placeholder="" value="<?php esc_attr_e( get_address_field_value($customer_id, 'shipping_address_1') ); ?>" />
-				</div>
-			</div>
-			
+		
 			<div class="form-group">
 				<div class="col-md-9 col-md-offset-3 checkout-submit">
 					<?php wp_nonce_field( 'woocommerce-process_checkout' ); ?>
